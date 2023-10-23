@@ -30,7 +30,7 @@ BASE_DIR = Path(__file__).parent.parent.parent
 SECRET_KEY = 'jskkkghadslkgjfadsljghfdsh65s4fg6shf7d4hf5ds6'
 
 DEBUG = True
-EMAIL_HOST_USER = 'your_email@example.com'
+EMAIL_HOST_USER = 'itcreative0071@gmail.com'
 # try:
 #     DJANGO_ADMIN_URL = env('DJANGO_ADMIN_URL')
 # except ImproperlyConfigured:
@@ -43,6 +43,8 @@ DEFAULT_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic', # new staticfiles ni hostda ochish imkonini beradi
+
     'django.contrib.staticfiles',
 
     # allauth required
@@ -97,6 +99,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # new whitenoise bu staticfiles ni middlewarega qoshish 
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -200,6 +204,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     str(BASE_DIR / 'static')
 ]
+STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles')) # new
+STATICFILES_STORAGE ='whitenoise.storage.CompressedManifestStaticFilesStorage' # new
 
 MESSAGE_TAGS = {
     messages.DEBUG: 'alert-info',
