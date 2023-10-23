@@ -1,0 +1,47 @@
+{% extends 'dashboard.html' %}
+{% load crispy_forms_tags %}
+{% load institute_filters %}
+{% load static %}
+
+
+{% block dashboard-body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div>
+                        {{ instituteprofile.name }}
+                    </div>
+                    <div>
+                        {% if request_institute %}
+                        <a href="{% url 'institute:institute_config' institute_pk=request_institute.pk  %}">
+                            Edit
+                        </a>
+                        {% else %}
+                          <a href="{% url 'institute:set_default_institute' institute_pk=instituteprofile.pk %}" 
+                            class="btn btm-sm btn-light border border-success">Set Active</a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <tbody>
+                            {% for instance in institute_fields %}
+                                {% for field, value in instance.fields.items %}
+                                    <tr>
+                                        <td scope="col">{{ field|str_replace:"_, " }}</td>
+                                        <td>
+                                            {{ value|default:"-" }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% endfor %}
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
