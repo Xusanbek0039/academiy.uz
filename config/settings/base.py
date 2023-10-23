@@ -44,11 +44,7 @@ DEFAULT_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'whitenoise.runserver_nostatic', # new staticfiles ni hostda ochish imkonini beradi
-    'allauth',
-    'allauth.account',
     'django.contrib.staticfiles',
-
-    # allauth required
     'django.contrib.sites',
 ]
 
