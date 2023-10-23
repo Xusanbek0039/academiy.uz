@@ -15,6 +15,7 @@ from utilities.constants import settings_message_constants
 
 BASE_DIR = Path(__file__).parent.parent.parent
 
+
 # env = environ.Env(
 #     # set casting, default value
 #     DEBUG=(bool, False),
