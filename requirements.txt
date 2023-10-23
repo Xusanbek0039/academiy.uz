@@ -28,7 +28,7 @@ diff-match-patch==20230430
 Django
 django-allauth==0.54.0
 django-autoslug==1.9.9
-django-bootstrap4==23.2
+django-bootstrap4
 django-braces==1.15.0
 django-celery-beat==2.5.0
 django-celery-results==2.5.1
