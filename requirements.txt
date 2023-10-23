@@ -71,7 +71,7 @@ ipaddr==2.2.0
 jdcal==1.4.1
 jet-bridge-base==1.7.19
 jet-django==1.7.19
-kombu==5.3.1
+kombu
 lockfile==0.12.2
 lxml==4.9.3
 Markdown==3.4.3
