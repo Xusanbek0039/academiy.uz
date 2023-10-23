@@ -44,7 +44,8 @@ DEFAULT_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'whitenoise.runserver_nostatic', # new staticfiles ni hostda ochish imkonini beradi
-
+    'allauth',
+    'allauth.account',
     'django.contrib.staticfiles',
 
     # allauth required
@@ -109,6 +110,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'allauth.account.middleware.AuthenticationMiddleware',
 
     # attach_institute_data_ctx_processor was implemented for same support.
     # 'institute.middleware.AttachInstituteDataMiddleware',
