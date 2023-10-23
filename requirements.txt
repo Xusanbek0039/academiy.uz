@@ -77,7 +77,7 @@ lxml==4.9.3
 Markdown==3.4.3
 MarkupPy==1.14
 msgpack==1.0.5
-mysqlclient==2.2.0
+mysqlclient
 oauthlib==3.2.2
 odfpy==1.4.1
 openpyxl==3.1.2
