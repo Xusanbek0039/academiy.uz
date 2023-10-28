@@ -10,32 +10,32 @@ from django.contrib.messages import constants as messages
 
 from utilities.constants import settings_message_constants
 
+
 ######################## Django Core & Custom Configs ########################
 ##############################################################################
 
 BASE_DIR = Path(__file__).parent.parent.parent
 
-
-# env = environ.Env(
-#     # set casting, default value
-#     DEBUG=(bool, False),
-#     USE_CELERY_REDIS=(bool, False),
-#     USE_PAYMENT_OPTIONS=(bool, True),
-#     USE_SENTRY=(bool, False),
-#     USE_MAILCHIMP=(bool, False),
-#     SSL_ISSANDBOX=(bool, True),
-# )
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, True),
+    USE_CELERY_REDIS=(bool, False),
+    USE_PAYMENT_OPTIONS=(bool, True),
+    USE_SENTRY=(bool, False),
+    USE_MAILCHIMP=(bool, False),
+    SSL_ISSANDBOX=(bool, True),
+)
 # reading .env file
-# env.read_env(str(BASE_DIR / "envs/.env"))
+env.read_env(str(BASE_DIR / "envs/.env"))
 
-SECRET_KEY = 'jskkkghadslkgjfadsljghfdsh65s4fg6shf7d4hf5ds6'
+SECRET_KEY = 'jhdscvfv87fd6b463s57db46safb58a4dsfb61f4bfbsfdb'
 
 DEBUG = True
-EMAIL_HOST_USER = 'itcreative0071@gmail.com'
-# try:
-#     DJANGO_ADMIN_URL = env('DJANGO_ADMIN_URL')
-# except ImproperlyConfigured:
-#     DJANGO_ADMIN_URL = 'admin'
+
+try:
+    DJANGO_ADMIN_URL = env('DJANGO_ADMIN_URL')
+except ImproperlyConfigured:
+    DJANGO_ADMIN_URL = 'admin'
 
 DEFAULT_APPS = [
     'django_school_management.accounts.apps.AccountsConfig',  # must be on top
@@ -44,8 +44,9 @@ DEFAULT_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'whitenoise.runserver_nostatic', # new staticfiles ni hostda ochish imkonini beradi
     'django.contrib.staticfiles',
+
+    # allauth required
     'django.contrib.sites',
 ]
 
@@ -97,6 +98,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -104,9 +106,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware',
-    'allauth.account.middleware.AuthenticationMiddleware',
+
+    # attach_institute_data_ctx_processor was implemented for same support.
+    # 'institute.middleware.AttachInstituteDataMiddleware',
 ]
+
 ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
@@ -139,15 +143,7 @@ DATABASES = {
     }
 }
 
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django_redis.cache.RedisCache',
-#         'LOCATION': 'redis://127.0.0.1:8000/1',  # HOST va PORT ni tekshiring
-#         'OPTIONS': {
-#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-#         }
-#     }
-# }
+
 
 
 # Write session to the DB, only load it from the cache
@@ -171,8 +167,6 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL = 'accounts.User'
 
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
     # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
@@ -184,7 +178,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 
 LANGUAGE_CODE = 'en-us'
 
-# TIME_ZONE = env('TIME_ZONE')
+TIME_ZONE = 'Asia/Tashkent' 
 
 USE_I18N = True
 
@@ -199,8 +193,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     str(BASE_DIR / 'static')
 ]
-STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles')) # new
-STATICFILES_STORAGE ='whitenoise.storage.CompressedManifestStaticFilesStorage' # new
 
 MESSAGE_TAGS = {
     messages.DEBUG: 'alert-info',
@@ -245,19 +237,19 @@ REST_FRAMEWORK = {
 CORS_ALLOW_ALL_ORIGINS = True
 
 # SENTRY - For loggin and monitoring purposes
-# USE_SENTRY = env('USE_SENTRY')
-# if USE_SENTRY:
-#     sentry_sdk.init(
-#         dsn=env('SENTRY_DSN'),
-#         integrations=[DjangoIntegration()],
-#         traces_sample_rate=1.0,
+USE_SENTRY = env('USE_SENTRY')
+if USE_SENTRY:
+    sentry_sdk.init(
+        dsn=env('SENTRY_DSN'),
+        integrations=[DjangoIntegration()],
+        traces_sample_rate=1.0,
 
-#         # If you wish to associate users to errors (assuming you are using
-#         # django.contrib.auth) you may enable sending PII data.
-#         send_default_pii=True,
-#         # debug=True will work even if the DEBUG=False in Django.
-#         debug=True
-#     )
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        send_default_pii=True,
+        # debug=True will work even if the DEBUG=False in Django.
+        debug=True
+    )
 
 # for permission management
 ROLEPERMISSIONS_MODULE = 'django_school_management.academics.roles'
@@ -280,10 +272,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'   # use 'mandatory' or 'optional' for respec
 
 # Django taggit.
 TAGGIT_CASE_INSENSITIVE = True
-USE_MAILCHIMP = True
-MAILCHIMP_API_KEY=True
-MAILCHIMP_DATA_CENTER=True
-MAILCHIMP_LIST_ID=True
+
 # =========================== PAYMENTS ===========================
 # BRAINTREE FOR HANDLING PAYMENTS
 # USE_PAYMENT_OPTIONS = env('USE_PAYMENT_OPTIONS')
@@ -317,11 +306,14 @@ MAILCHIMP_LIST_ID=True
 #         raise ImproperlyConfigured(settings_message_constants.INCORRECT_CELERY_REDIS_SETUP_MESSAGE)
 
 # # MAILCHIMP INTEGRATION
-# USE_MAILCHIMP = env('USE_MAILCHIMP')
-# if USE_MAILCHIMP:
-#     MAILCHIMP_API_KEY = env('MAILCHIMP_API_KEY')
-#     MAILCHIMP_DATA_CENTER = env('MAILCHIMP_DATA_CENTER')
-#     MAILCHIMP_LIST_ID = env('MAILCHIMP_LIST_ID')
+USE_MAILCHIMP = True
+USE_MAILCHIMP = True
+
+MAILCHIMP_API_KEY = 'abc123def456'
+
+MAILCHIMP_DATA_CENTER = 'us10'  
+
+MAILCHIMP_LIST_ID = '1234567'
 
 # TINYMCE_DEFAULT_CONFIG = {
 #     "theme": "silver",
