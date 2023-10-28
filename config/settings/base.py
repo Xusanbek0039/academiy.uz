@@ -208,11 +208,10 @@ MEDIA_URL = '/media/'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 
-# EMAIL_HOST = env('EMAIL_HOST')
-# EMAIL_PORT = env('EMAIL_PORT')
-# EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-
+EMAIL_HOST = 'itcreative0071@gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'itcreative0071@gmail.com'
+EMAIL_HOST_PASSWORD = 'Xusanbek0071'
 # login/register redirects
 
 LOGIN_REDIRECT_URL = 'account:profile_complete'
