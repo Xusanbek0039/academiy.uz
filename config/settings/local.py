@@ -19,6 +19,7 @@ INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE += [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'allauth.account.middleware',
 ]
 
 

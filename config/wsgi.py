@@ -1,3 +1,4 @@
+# wsgi kongiratsiyasi gunicorn uchun maxsus yo'l
 import os
 
 from django.core.wsgi import get_wsgi_application

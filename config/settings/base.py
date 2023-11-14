@@ -32,10 +32,10 @@ SECRET_KEY = 'jhdscvfv87fd6b463s57db46safb58a4dsfb61f4bfbsfdb'
 
 DEBUG = True
 
-try:
-    DJANGO_ADMIN_URL = env('DJANGO_ADMIN_URL')
-except ImproperlyConfigured:
-    DJANGO_ADMIN_URL = 'admin'
+# try:
+#     DJANGO_ADMIN_URL = env('DJANGO_ADMIN_URL')
+# except ImproperlyConfigured:
+#     DJANGO_ADMIN_URL = 'admin'
 
 DEFAULT_APPS = [
     'django_school_management.accounts.apps.AccountsConfig',  # must be on top
@@ -45,6 +45,7 @@ DEFAULT_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
 
     # allauth required
     'django.contrib.sites',
@@ -91,7 +92,7 @@ THIRD_PARTY_APPS = [
 
 INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
-SITE_ID = 1
+# SITE_ID = 1
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -108,7 +109,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     # attach_institute_data_ctx_processor was implemented for same support.
-    # 'institute.middleware.AttachInstituteDataMiddleware',
+    'institute.middleware.AttachInstituteDataMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -116,9 +117,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            str(BASE_DIR / 'templates')
-        ],
+        'DIRS': [str(BASE_DIR.joinpath('templates'))],     # templates ulanishi 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -126,12 +125,11 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                # ctx processeor to attach institute data in templates
-                'context_processors.dj_sms_context_processor.attach_institute_data_ctx_processor',
             ],
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'config.wsgi.application'
 

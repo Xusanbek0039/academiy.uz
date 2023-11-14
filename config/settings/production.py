@@ -8,7 +8,7 @@ SSL_ISSANDBOX = True
 ALLOWED_HOSTS = ['*']
 
 # This needs to come before 'staticfiles' app
-DEFAULT_APPS.insert(0, 'whitenoise.runserver_nostatic')
+DEFAULT_APPS.insert('whitenoise.runserver_nostatic')
 INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE += [
